@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<section id="page-flights" class="page">
+  <div class="page-header">
+    <h1>Flights</h1>
+  </div>
+  <div>
+	<p class="text-center text-info"> There are <strong><span data-bind="text:flightList().length"/></strong> flights available. You can update by clicking one element</p>
+    <table class="table table-bordered table-hover" data-bind="visible : flightList().length &gt; 0">
+      <thead>
+        <tr>
+          <th>Flight number</th>
+          <th>From</th>
+          <th>Departure</th>
+          <th>Destination</th>
+          <th>Arrival</th>
+          <th>Tarif</th>
+          <th>Company</th>
+        </tr>
+      </thead>
+      <tbody data-bind="foreach : flightList()">
+        <tr class="info" data-bind="click: $parent.edit">
+          <td data-bind="text:flightNumber"></td>
+          <td data-bind="text:origin"></td>
+          <td data-bind="text:departureHour"></td>
+          <td data-bind="text:destination"></td>
+          <td data-bind="text:arrivalHour"></td>
+          <td data-bind="text:tarif"></td>
+          <td data-bind="text:airline"></td>
+        </tr>
+      </tbody>
+    </table>
+	</div>
+    <div data-bind="visible:showForm, with:selectedFlight()">
+      <h3> Details</h3>
+      <form>
+        <div class="form-group">
+          <label for="departureHour">Departure</label>
+          <input type="departureHour" class="form-control" id="departureHour" placeholder="Enter departure hour" data-bind="value:departureHour" />
+        </div>
+        <div class="form-group">
+          <label for="arrivalHour">Arrival</label>
+          <input type="arrivalHour" class="form-control" id="arrivalHour" placeholder="Enter arrival hour" data-bind="value:arrivalHour" />
+        </div>
+        <div class="form-group">
+          <label for="tarif">Tarif</label>
+          <input type="tarif" class="form-control" id="tarif" placeholder="Enter tarif" data-bind="value:tarif" />
+        </div>
+        <div class="form-group">
+          <button data-bind="click: $parent.updateOne" type="submit" class="btn btn-primary">Update flight</button>
+          <button data-bind="click: $parent.deleteOne" type="submit" class="btn btn-warning">Delete flight</button>
+          <button data-bind="click: $parent.cancelEdit" type="submit" class="btn-default">Cancel</button>
+        </div>
+      </form>
+    </div>
+
+</section>

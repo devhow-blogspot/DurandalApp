@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<section id="page-addflight" class="page">
+  <div class="page-header">
+    <h1>Flight creation</h1>
+  </div>
+  <div data-bind="with: viewModel">
+    <form>
+      <div class="form-group">
+        <label for="date">Date</label>
+        <input type="date" class="form-control" id="date" placeholder="Enter date" data-bind="value:date" />
+      </div>
+      <div class="form-group">
+        <label for="departureHour">Departure</label>
+        <input type="departureHour" class="form-control" id="departureHour" placeholder="Enter departure hour" data-bind="value:departureHour" />
+      </div>
+      <div class="form-group">
+        <label for="selectedFromCity">From</label>
+        <select type="selectedFromCity" class="form-control" id="selectedFromCity" placeholder="Select origin" data-bind="options: $parent.availableCities, selectedOptions: selectedFromCity, optionsCaption: 'Select departure city...'" />
+      </div>
+      <div class="form-group">
+        <label for="arrivalHour">Arrival</label>
+        <input type="arrivalHour" class="form-control" id="arrivalHour" placeholder="Enter arrival hour" data-bind="value:arrivalHour" />
+      </div>
+      <div class="form-group">
+        <label for="selectedToCity">To</label>
+        <select type="selectedToCity" class="form-control" id="selectedToCity" placeholder="Select destination" data-bind="options: $parent.availableCities,selectedOptions: selectedToCity,optionsCaption: 'Select destination...'" />
+      </div>
+      <div class="form-group">
+        <label for="tarif">Tarif</label>
+        <input type="tarif" class="form-control" id="tarif" placeholder="Enter tarif" data-bind="value:tarif" />
+      </div>
+      <div class="form-group">
+        <label for="selectedCompany">Airline </label>
+        <select type="selectedCompany" class="form-control" id="selectedCompany" placeholder="Select airline" data-bind="options: $parent.availableCompanies, selectedOptions: selectedCompany, optionsCaption: 'Select a company'" />
+      </div>
+      <div class="form-group">
+        <button data-bind="click: $parent.save" type="submit" class="btn btn-primary">Add</button>
+      </div>
+    </form>
+  </div>
+  <br />
+  <br />
+</section>
