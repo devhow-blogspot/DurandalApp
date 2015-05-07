@@ -4,7 +4,7 @@
     <h1>Flights</h1>
   </div>
   <div>
-	<p class="text-center text-info"> There are <strong><span data-bind="text:flightList().length"/></strong> flights available. You can update by clicking one element</p>
+	<p class="text-center text-info"> There are <strong><span data-bind="text:flightList().length"/></strong> flights available. You can update by clicking one line</p>
     <table class="table table-bordered table-hover" data-bind="visible : flightList().length &gt; 0">
       <thead>
         <tr>
@@ -30,7 +30,7 @@
       </tbody>
     </table>
 	</div>
-    <div data-bind="visible:showForm, with:selectedFlight()">
+    <div data-bind="visible:selectedFlight(), with:selectedFlight()">
       <h3> Details</h3>
       <form>
         <div class="form-group">

@@ -9,7 +9,6 @@ define(['jquery', 'knockout', 'durandal/app', 'durandal/system', 'plugins/router
 	var
 	flightList = ko.observableArray(),
 	serverUrlDeleteOne = 'http://localhost:8080/DurandalBackEnd/flight/delete',
-	showForm = ko.observable(false),
 	selectedFlight = ko.observable(),
 	activate = function activate() {
 		$.ajax({
@@ -20,8 +19,6 @@ define(['jquery', 'knockout', 'durandal/app', 'durandal/system', 'plugins/router
 					});
 
 				flightList(resultMapped);
-				showForm(false);
-
 			},
 			error : function () {
 				displayDialogMsg('Error while loading flights from server');
@@ -36,9 +33,7 @@ define(['jquery', 'knockout', 'durandal/app', 'durandal/system', 'plugins/router
 		flightList : flightList,
 		edit : function (flight) {
 			selectedFlight(flight);
-			showForm(true);
 		},
-		showForm : showForm,
 		updateOne : function (selected) {
 			delete selected.__ko_mapping__; //remove field added by knockout
 			var jsonFlightBackToServer = ko.toJSON(selected);
@@ -51,18 +46,15 @@ define(['jquery', 'knockout', 'durandal/app', 'durandal/system', 'plugins/router
 				success : function (result) {
 					if (result) {
 						displayDialogMsg('Flight updated successfully !!');
+						selectedFlight(null);
 					} else {
 						displayDialogMsg('Error when saving one flight to server');
-					}
-					//self.removeSaveAction();
-					showForm(false);
+					}					
 				},
 				error : function () {
 					displayDialogMsg('Error while sending data');
-					showForm(false);
 				}
 			});
-
 		},
 		deleteOne : function (flightToDelete) {
 			app.showMessage('Are you sure you want to delete flight ' + flightToDelete.flightNumber() + ' ?', 'FlighTTool check', ['Yes', 'No']).then(function (dialogResult) {
@@ -82,21 +74,19 @@ define(['jquery', 'knockout', 'durandal/app', 'durandal/system', 'plugins/router
 							} else {
 								displayDialogMsg('Error when deleting the flight to server');
 							}
-							showForm(false);
+						
 						},
 						error : function () {
-							displayDialogMsg('Error while sending data, try again');
-							showForm(false);
+							displayDialogMsg('Error while sending data, try again');							
 						}
 					});
 				} else {
-					//
+					//do nothing
 				}
 			});
-
 		},
 		cancelEdit : function () {
-			showForm(false);
+			selectedFlight(null);
 		},
 		selectedFlight : selectedFlight,
 		activate : activate,
