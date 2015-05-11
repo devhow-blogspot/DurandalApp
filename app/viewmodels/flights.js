@@ -9,15 +9,17 @@ define(['jquery', 'knockout', 'durandal/app', 'durandal/system', 'plugins/router
 	var
 	flightList = ko.observableArray(),
 	serverUrlDeleteOne = 'http://localhost:8080/DurandalBackEnd/flight/delete',
+	serverUrlGetFlightList = 'http://localhost:8080/DurandalBackEnd/flights',
+	serverUrlUpdateFlight= 'http://localhost:8080/DurandalBackEnd/flight/update',
 	selectedFlight = ko.observable(),
 	activate = function activate() {
 		$.ajax({
-			url : 'http://localhost:8080/DurandalBackEnd/flights',
+			url : serverUrlGetFlightList,
 			success : function (result) {
+				//elements from server result are transformed 
 				var resultMapped = $.map(result, function (item) {
 						return ko.mapping.fromJS(item);
 					});
-
 				flightList(resultMapped);
 			},
 			error : function () {
@@ -38,7 +40,7 @@ define(['jquery', 'knockout', 'durandal/app', 'durandal/system', 'plugins/router
 			delete selected.__ko_mapping__; //remove field added by knockout
 			var jsonFlightBackToServer = ko.toJSON(selected);
 
-			$.ajax('http://localhost:8080/DurandalBackEnd/flight/update', {
+			$.ajax(serverUrlUpdateFlight, {
 				contentType : 'application/json; charset=utf-8',
 				data : jsonFlightBackToServer,
 				type : 'POST',

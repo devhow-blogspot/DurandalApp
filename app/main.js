@@ -10,6 +10,7 @@ requirejs.config({
         'modernizr': '../bower_components/modernizr/modernizr',
 		'knockout-validation': '../bower_components/knockout-validation/dist/knockout.validation',
 		'knockout-mapping': '../bower_components/bower-knockout-mapping/dist/knockout.mapping',
+		'callServiceGet': 'viewmodels/callService',
     },
     shim: {
     bootstrap: {

@@ -1,16 +1,14 @@
-define(["jquery", "knockout", "durandal/app", "durandal/system", "plugins/router", 'knockout-validation'], function ($, ko, app, system, router, kovalid) {
+define(["jquery", "knockout", "durandal/app", "durandal/system", "plugins/router", 'knockout-validation', 'callServiceGet'], function ($, ko, app, system, router, kovalid, restCall) {
 
 	'use strict';
 
 	function FlightData(data) {
-		this.date = data.date;
 		this.origin = data.selectedFromCity().join();
 		this.destination = data.selectedToCity().join();
 		this.airline = data.selectedCompany().join();
 		this.departureHour = data.departureHour;
 		this.arrivalHour = data.arrivalHour;
 		this.tarif = data.tarif;
-		this.id = data.id;
 	}
 
 	var FlightModel = function (app, router) {
@@ -21,86 +19,40 @@ define(["jquery", "knockout", "durandal/app", "durandal/system", "plugins/router
 		self.selectedCompany = ko.observable();
 		self.departureHour = ko.observable().extend({
 				minLength : 1,
-				required : true
+				number : true,
+				required : {
+					params : true,
+					message : 'The departure hour is required.'
+				}
 			});
 		self.arrivalHour = ko.observable().extend({
 				minLength : 1,
-				required : true
+				number : true,
+				required : {
+					params : true,
+					message : 'The arrival hour is required.'
+				}
 			});
 		self.tarif = ko.observable().extend({
 				minLength : 2,
-				required : true
+				number : true,
+				required : {
+					params : true,
+					message : 'The price is required.'
+				}
 			});
-		self.id = ko.observable();
-
 	},
-	loadCompanies = function () {
-		$.ajax({
-			url : 'http://localhost:8080/DurandalBackEnd/airlines',
-			success : function (result) {
-
-				if (result !== 'undefined') {
-					var mappedComp = $.map(result, function (item) {
-							return item.name;
-						});
-					availableCompanies(mappedComp);
-					availableCompanies.sort();
-
-				} else {
-					app.showMessage('Error while loading companies from Server');
-				}
-			},
-			error : function () {
-				app.showMessage('Error while loading companies from Server');
-			}
-		});
-
+	loadCompanies = function (data) {
+		availableCompanies(data);
+		availableCompanies.sort();
 	},
-	loadCities = function () {
-
-		$.ajax({
-			url : 'http://localhost:8080/DurandalBackEnd/cities',
-			success : function (result) {
-
-				if (result !== 'undefined') {
-					var mappedCities = $.map(result, function (item) {
-							return item.name;
-						});
-					availableCities(mappedCities);
-					availableCities.sort();
-
-				} else {
-					app.showMessage('Error while loading cities from Server');
-				}
-			},
-			error : function () {
-				app.showMessage('Error while loading cities from Server');
-			}
-		});
-
+	loadCities = function (data) {
+		availableCities(data);
+		availableCities.sort();
 	},
 	save = function (data) {
 		var jsonBackToServer = ko.toJSON(new FlightData(data));
-
-		$.ajax('http://localhost:8080/DurandalBackEnd/addFlight', {
-			contentType : 'application/json; charset=utf-8',
-			data : jsonBackToServer,
-			type : 'POST',
-			dataType : 'json',
-			success : function (result) {
-				if (result) {
-					app.showMessage('Data saved successfully !!');//then
-					router.navigate('#flights');
-				} else {
-					app.showMessage('Error when saving data to server');
-				}
-
-			},
-			error : function () {
-				app.showMessage('Error while sending data');
-
-			}
-		});
+		restCall.postData('http://localhost:8080/DurandalBackEnd/addFlight', jsonBackToServer);
 
 	},
 
@@ -110,14 +62,12 @@ define(["jquery", "knockout", "durandal/app", "durandal/system", "plugins/router
 	// Lifecycle
 
 	activate = function () {
-		loadCities();
-		loadCompanies();
+		restCall.getData('http://localhost:8080/DurandalBackEnd/cities', loadCities);
+		restCall.getData('http://localhost:8080/DurandalBackEnd/airlines', loadCompanies);
 	},
-
 	deactivate = function () {};
 
 	return {
-
 		activate : activate,
 		deactivate : deactivate,
 		availableCities : availableCities,
