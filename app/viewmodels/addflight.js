@@ -3,9 +3,9 @@ define(["jquery", "knockout", "durandal/app", "durandal/system", "plugins/router
 	'use strict';
 
 	function FlightData(data) {
-		this.origin = data.selectedFromCity().join();
-		this.destination = data.selectedToCity().join();
-		this.airline = data.selectedCompany().join();
+		this.origin = data.selectedFromCity();
+		this.destination = data.selectedToCity();
+		this.airline = data.selectedCompany();
 		this.departureHour = data.departureHour;
 		this.arrivalHour = data.arrivalHour;
 		this.tarif = data.tarif;
@@ -52,8 +52,7 @@ define(["jquery", "knockout", "durandal/app", "durandal/system", "plugins/router
 	},
 	save = function (data) {
 		var jsonBackToServer = ko.toJSON(new FlightData(data));
-		//send data to server layer
-		restCall.postData('http://serverhost/addMyFlight', jsonBackToServer);
+		restCall.postData('http://serverHost/createFlight', jsonBackToServer);
 
 	},
 
@@ -63,9 +62,8 @@ define(["jquery", "knockout", "durandal/app", "durandal/system", "plugins/router
 	// Lifecycle
 
 	activate = function () {
-		//loading resources from server
-		restCall.getData('http://serverhost/giveMeCities', loadCities);
-		restCall.getData('http://serverhost/giveMeAirlines', loadCompanies);
+		restCall.getData('http://serverHost/getCities', loadCities);
+		restCall.getData('http://serverHost/getCompanies', loadCompanies);
 	},
 	deactivate = function () {};
 
