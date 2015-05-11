@@ -52,7 +52,8 @@ define(["jquery", "knockout", "durandal/app", "durandal/system", "plugins/router
 	},
 	save = function (data) {
 		var jsonBackToServer = ko.toJSON(new FlightData(data));
-		restCall.postData('http://localhost:8080/DurandalBackEnd/addFlight', jsonBackToServer);
+		//send data to server layer
+		restCall.postData('http://serverhost/addMyFlight', jsonBackToServer);
 
 	},
 
@@ -62,8 +63,9 @@ define(["jquery", "knockout", "durandal/app", "durandal/system", "plugins/router
 	// Lifecycle
 
 	activate = function () {
-		restCall.getData('http://localhost:8080/DurandalBackEnd/cities', loadCities);
-		restCall.getData('http://localhost:8080/DurandalBackEnd/airlines', loadCompanies);
+		//loading resources from server
+		restCall.getData('http://serverhost/giveMeCities', loadCities);
+		restCall.getData('http://serverhost/giveMeAirlines', loadCompanies);
 	},
 	deactivate = function () {};
 

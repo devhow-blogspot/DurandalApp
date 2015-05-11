@@ -8,9 +8,9 @@ define(['jquery', 'knockout', 'durandal/app', 'durandal/system', 'plugins/router
 
 	var
 	flightList = ko.observableArray(),
-	serverUrlDeleteOne = 'http://localhost:8080/DurandalBackEnd/flight/delete',
-	serverUrlGetFlightList = 'http://localhost:8080/DurandalBackEnd/flights',
-	serverUrlUpdateFlight= 'http://localhost:8080/DurandalBackEnd/flight/update',
+	serverUrlDeleteOne = 'http://serverhost/removeFlight',
+	serverUrlGetFlightList = 'http://serverhost/giveAllFlights',
+	serverUrlUpdateFlight= 'http://serverhost/updateFlight',
 	selectedFlight = ko.observable(),
 	activate = function activate() {
 		$.ajax({
@@ -82,9 +82,7 @@ define(['jquery', 'knockout', 'durandal/app', 'durandal/system', 'plugins/router
 							displayDialogMsg('Error while sending data, try again');							
 						}
 					});
-				} else {
-					//do nothing
-				}
+				} 
 			});
 		},
 		cancelEdit : function () {
